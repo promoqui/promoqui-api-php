@@ -45,7 +45,7 @@ class Offer {
     }elseif ($res[0] == 400) {
       throw new \Exception("Bad Request! Error: {$res[1]["errors"]}", 1);
     }else{
-      throw new \Exception("Unexpected HTTP status code {$res[0]}", 1);      
+      throw new \Exception("Unexpected HTTP status code {$res[0]}, {$res[1]}", 1);      
     }
 
   }

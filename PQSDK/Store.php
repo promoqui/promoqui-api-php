@@ -69,7 +69,7 @@ class Store {
         } else if ($res[0] == 404) {
             return null;
         } else {
-            throw new \Exception("Unexpected HTTP status code {$res[0]}");
+            throw new \Exception("Unexpected HTTP status code {$res[0]}, {$res[1]}");
         }
     }
 
@@ -83,7 +83,7 @@ class Store {
         } else if ($res[0] == 404) {
             return null;
         } else {
-            throw new \Exception("Unexpected HTTP status code {$res[0]}");
+            throw new \Exception("Unexpected HTTP status code {$res[0]}, {$res[1]}");
         }
     }
 
@@ -123,7 +123,7 @@ class Store {
         ));
 
         if ($res[0] != $expected_status) {
-            throw new \Exception("Unexpected HTTP status code {$res[0]}");
+            throw new \Exception("Unexpected HTTP status code {$res[0]}, {$res[1]}");
         } else {
             if ($method == "post")
                 $this->id=json_decode($res[2], true)['id'];

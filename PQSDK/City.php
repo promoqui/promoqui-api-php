@@ -23,7 +23,22 @@ class City
         } else if ($res[0] == 404) {
             return null;
         } else {
-            throw new \Exception("Unexpected HTTP status code {$res[0]}");
+            throw new \Exception("Unexpected HTTP status code {$res[0]}, {$res[1]}");
+        }
+    }
+
+    public function all() {
+        $res = RestLayer::get('v1/cities', array(), array( "Authorization" => "Bearer " . self::token()));
+        if ($res[0] == 200){
+            $cities = array();
+            foreach ($res[1] as $city) {
+                $cities[] = self::from_json($city);
+            }
+            return $cities;
+        }else if($res[0] == 404){
+            return null;
+        }else{
+            throw new \Exception("Unexpected HTTP status code {$res[0]}, {$res[1]}");
         }
     }
 
@@ -40,6 +55,15 @@ class City
         }
     }
 
+    private function from_json($json) {
+        $result = new City();
+
+        foreach ($json as $key => $val) {
+            $result->{$key} = $val;
+        }
+
+        return $result;
+    }
 
 
 }

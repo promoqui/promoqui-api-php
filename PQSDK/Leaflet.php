@@ -38,7 +38,7 @@ class Leaflet {
         else if ($res[0] == 404)
             return null;
         else
-            throw new \Exception("Unexpected HTTP status code " . $res[0]);
+            throw new \Exception("Unexpected HTTP status code {$res[0]}, {$res[1]}");
     }
 
     public function show() {
@@ -53,7 +53,7 @@ class Leaflet {
         ));
 
         if ($res[0] != $expected_status) {
-            throw new \Exception("Unexpected HTTP status code {$res[0]}");
+            throw new \Exception("Unexpected HTTP status code {$res[0]}, {$res[1]}");
         }else{
             return self::from_json(json_decode($res[2], true));
         }
@@ -83,7 +83,7 @@ class Leaflet {
             'Authorization' => "Bearer " . self::token()
         ));
         if ($res[0] != $expected_status) {
-            throw new \Exception("Unexpected HTTP status code {$res[0]}");
+            throw new \Exception("Unexpected HTTP status code {$res[0]}, {$res[1]}");
         } else if ($method == "post") {
             $this->id = json_decode($res[2], true)['id'];
         }
