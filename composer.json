@@ -1,0 +1,16 @@
+{
+    "name": "promoqui/promoqui-api-php",
+    "description": "PHP wrapper for PromoQui API",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Florin Lungu",
+            "email": "f.lungu@promoqui.it"
+        },
+        {
+            "name": "PromoQui S.P.A.",
+            "email": "assistenza@promoqui.it"
+        }
+    ],
+    "require": {}
+}
