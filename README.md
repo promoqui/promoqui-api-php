@@ -59,8 +59,8 @@ That line of code will interrogate the PromoQui database for that City, eventual
 $store = Store::find('Via Roma, 32', '80100');
 if ($store == null){
   $store = new Store(); 
-  $store->$name = "Store name"; #Required!
-  $store->$address = "Via Roma, 32"; Required!
+  $store->$name = "Store name"; # Required!
+  $store->$address = "Via Roma, 32"; # Required!
   $store->$city = "Naples"; # if the city is not present on database then the city will be created. Required!
   $store->$latitude = ""; # insert the store's latitude. Required!
   $store->$longitude = "";# insert the store's longitude. Required!
@@ -75,8 +75,8 @@ $store->save(); # Save store's data
 >##Note!##
 >The opening hours array must be as follow:
 >```php
->[["weekday"=>0, "open_am"=>"09:00", "close_am"=>"13:00", "open_pm"=>"14:00", "close_pm"=>"18:00"},...]
-> If the store is closed you need to use such as: [{"weekday"=>6, "closed"=>true}]
+>[["weekday"=>0, "open_am"=>"09:00", "close_am"=>"13:00", "open_pm"=>"14:00", "close_pm"=>"18:00"], ...]
+> If the store is closed you need to use such as: [ ["weekday"=>6, "closed"=>true] ]
 >```
 
 
@@ -85,8 +85,8 @@ That code will interrogate the database for a store at that address, with that z
 # Working with leaflets
 
 ```php
-$leaflet = Leaflet::find(url);
-if ($leaflet == null){
+$leaflet = Leaflet::find($url);
+if ($leaflet == null) {
   $leaflet = new Leaflet();
   $leaflet->$name = 'Nice leaflet';
   $leaflet->$url = $url;
@@ -124,7 +124,7 @@ Suppose we have all offers saved in an array called `offers` and an array called
 ```php
 foreach($offers as $data){
   $data["store_ids"] = $storeIds; #add store ids to offer array
-  $offer = new Offer(data);
+  $offer = new Offer($data);
   $offer->save();
 }
 ```
