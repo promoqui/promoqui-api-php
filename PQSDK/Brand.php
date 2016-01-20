@@ -11,7 +11,7 @@ class Brand {
         return Token::accessToken();
     }
 
-    public function list() {
+    public function all() {
         $res = RestLayer::get('v1/brands', array(), array(
             'Authorization' => 'Bearer ' . self::token()
         ));
