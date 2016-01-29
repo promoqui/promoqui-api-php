@@ -53,6 +53,11 @@ $city = City::find_or_create('Rome');
 
 That line of code will interrogate the PromoQui database for that City, eventually creating it if not found, and will return a City object, containing all the details like: latitude, longitude, inhabitants and most importantly the City ID.
 
+To get only cities from a specific country you have to use something like this:
+```php
+$cities = array_filter(City->all(), function($val){return $val['country'] == 'gbr';}); # will return an array of City objects that havve only country=gbr
+```
+
 # Working with stores
 
 ```php
@@ -77,6 +82,7 @@ $store->save(); # Save store's data
 >```php
 >[["weekday"=>0, "open_am"=>"09:00", "close_am"=>"13:00", "open_pm"=>"14:00", "close_pm"=>"18:00"], ...]
 > If the store is closed you need to use such as: [ ["weekday"=>6, "closed"=>true] ]
+> The opening_hours must be in total 7 (one for every day) and must be uniq so please be carreful with this
 >```
 
 
