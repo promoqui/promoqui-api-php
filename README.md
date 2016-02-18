@@ -7,12 +7,17 @@ The Settings class allows you to set the URL of the API domain.
 You should not attempt to use this library against the official PromoQui API domain without permission from PromoQui SPA. Feel free however, to use it for your own projects and to report any problem you may find.
 
 # Setup
+We are using composer to manage our PQSDK wrapper so you have to install composer based on your operating system.
 
-First of all, you have to declare the `Crawlers` namespace and import the PQSDK loader using php's require function:
+Once you installed composer, to install PQSDK wrapper create a new folder and inside it run from a terminal:
+```bash
+composer require 'promoqui/promoqui-api-php'
+```
+First of all, you have to declare the `Crawlers` namespace and import the composer's `autoload.php` loader using php's require function:
 ```php 
 namespace Crawlers;
 
-require 'PQSDK.php';
+require 'autoload.php';
 ```
 
 Configure the library to use your provided api host, key, schema and country:
