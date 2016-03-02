@@ -14,7 +14,7 @@ Once you installed composer, to install PQSDK wrapper create a new folder and in
 composer require 'promoqui/promoqui-api-php'
 ```
 First of all, you have to declare the `Crawlers` namespace and import the composer's `autoload.php` loader using php's require function:
-```php 
+```php
 namespace Crawlers;
 
 require 'autoload.php';
@@ -68,12 +68,12 @@ $cities = array_filter(City->all(), function($val){return $val['country'] == 'gb
 ```php
 $store = Store::find('Via Roma, 32', '80100');
 if ($store == null){
-  $store = new Store(); 
+  $store = new Store();
   $store->$name = "Store name"; # Required!
   $store->$address = "Via Roma, 32"; # Required!
   $store->$city = "Naples"; # if the city is not present on database then the city will be created. Required!
-  $store->$latitude = ""; # insert the store's latitude. Required!
-  $store->$longitude = "";# insert the store's longitude. Required!
+  $store->$latitude = ""; # insert the store's latitude.
+  $store->$longitude = "";# insert the store's longitude.
   $store->$zipcode = ""; # insert the store's postalcode. if there is no postalcode, insert "00000". Required!
   $store->$origin = ""; # insert the store's url. Required!
   $store->$phone = "";# insert the store's phone if present
@@ -92,6 +92,10 @@ $store->save(); # Save store's data
 
 
 That code will interrogate the database for a store at that address, with that zipcode, among the stores for the retailer we were assigned. If the store was not found then we will set all data of store and then save it.
+
+
+>##Note about Geocoder use##
+>If you can't find the store's latitude/longitude coordinates then you have to skip setting latitude/longitude to PQSDK::Store object. Our server will set them using geocoder only the first time.
 
 # Working with leaflets
 
@@ -140,7 +144,7 @@ For each offer we need to parse:
   * Offer's image url
   * Offer's price
   * Offer's original price _if present_
-  
+
 Suppose we have all offers saved in an array called `offers` and an array called `storeIds` that contains all store ids:
 ```php
 foreach($offers as $data){
