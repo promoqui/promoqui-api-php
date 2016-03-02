@@ -98,7 +98,7 @@ class Store {
             $expected_status = 201;
         }
         $fields = array();
-        foreach (array('name', 'address', 'zipcode', 'latitude', 'longitude', 'origin') as $field) {
+        foreach (array('name', 'address', 'zipcode', 'origin') as $field) {
             if ($this->{$field} == null) {
                 throw new \Exception("Missing required {$field} field", 1);
             } else {
@@ -118,6 +118,8 @@ class Store {
         $fields['phone'] = ($this->phone == null) ? null : $this->phone;
         $fields['opening_hours'] = (empty($this->opening_hours)) ? null : json_encode($this->opening_hours);
         $fields['opening_hours_text'] = ($this->opening_hours_text== null) ? null : $this->opening_hours_text;
+        $fields['latitude'] = ($this->latitude == null) ? null : $this->latitude;
+        $fields['longitude'] = ($this->longitude == null) ? null : $this->longitude;
         $res = RestLayer::request($method, $url, $fields, array(
             'Authorization' => "Bearer " . self::token()
         ));
