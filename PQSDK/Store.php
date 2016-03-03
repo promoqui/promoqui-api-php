@@ -3,7 +3,7 @@
 namespace PQSDK;
 
 class Store {
-    public $id, $name, $address, $zipcode, $latitude, $longitude, $phone, $city_id, $city, $origin, $opening_hours, $opening_hours_text, $leaflet_ids;
+    public $id, $name, $address, $zipcode, $latitude, $longitude, $phone, $city_id, $city, $origin, $opening_hours, $opening_hours_text;
 
     public function __construct() {
         $this->leaflet_ids = array();
@@ -112,9 +112,6 @@ class Store {
 
         $fields["city_id"] = ($this->city_id == null) ? null : $this->city_id;
         $fields["city"] = ($this->city == null) ? null : $this->city;
-
-        $fields['leaflet_ids'] = (empty($this->leaflet_ids)) ? array() : json_encode($this->leaflet_ids);
-
         $fields['phone'] = ($this->phone == null) ? null : $this->phone;
         $fields['opening_hours'] = (empty($this->opening_hours)) ? null : json_encode($this->opening_hours);
         $fields['opening_hours_text'] = ($this->opening_hours_text== null) ? null : $this->opening_hours_text;
