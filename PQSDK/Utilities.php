@@ -60,7 +60,7 @@ class Network {
         curl_setopt($ch, CURLOPT_HEADER, 1);
 
         //setting user-agent
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/43.0.2357.130 Chrome/43.0.2357.130 Safari/537.36');
+        curl_setopt($ch, CURLOPT_USERAGENT, 'PromoQui PHP Wrapper');
 
         if ($asJson)
             $customHeaders["Content-Type"] = "application/json";
