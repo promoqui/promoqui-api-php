@@ -60,10 +60,16 @@ class Leaflet {
     }
 
     public function save() {
-        $method = "post";
-        $endpoint = "v1/leaflets";
-        $expected_status = 201;
 
+        if ($this->id != null) {
+            $method = "put";
+            $url = "v1/leaflets/{$this->id}";
+            $expected_status = 200;
+        } else {
+            $method = "post";
+            $url = "v1/leaflets";
+            $expected_status = 201;
+        }
         $fields = [];
         foreach (array('name','url') as $field) {
             if($this->{$field} == null){
