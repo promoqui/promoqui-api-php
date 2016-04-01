@@ -63,11 +63,11 @@ class Leaflet {
 
         if ($this->id != null) {
             $method = "put";
-            $url = "v1/leaflets/{$this->id}";
+            $endpoint = "v1/leaflets/{$this->id}";
             $expected_status = 200;
         } else {
             $method = "post";
-            $url = "v1/leaflets";
+            $endpoint = "v1/leaflets";
             $expected_status = 201;
         }
         $fields = [];
