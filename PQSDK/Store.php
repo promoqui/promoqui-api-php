@@ -6,7 +6,6 @@ class Store {
     public $id, $name, $address, $zipcode, $latitude, $longitude, $phone, $city_id, $city, $origin, $opening_hours, $opening_hours_text;
 
     public function __construct() {
-        $this->leaflet_ids = array();
         $this->opening_hours = array();
     }
 
@@ -122,7 +121,11 @@ class Store {
         ));
 
         if ($res[0] != $expected_status) {
-            throw new \Exception("Unexpected HTTP status code {$res[0]}, {$res[1]}");
+            if (is_array($res[1])){
+              throw new \Exception("Unexpected HTTP status code {$res[0]}", 1);
+            }else{
+              throw new \Exception("Unexpected HTTP status code {$res[0]}, {$res[1]}", 1);
+            }
         } else {
             if ($method == "post")
                 $this->id=json_decode($res[2], true)['id'];
@@ -139,7 +142,7 @@ class Store {
                     $result->{$key} = $val;
                 }
             } else {
-                if ($key != 'country' && $key != 'city' && $key != 'retailer_id') {
+                if ($key != 'country' && $key != 'city' && $key != 'retailer_id' && $key != 'leaflet_ids') {
                     $result->{$key} = $val;
                 }
             }
