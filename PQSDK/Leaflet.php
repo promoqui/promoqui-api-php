@@ -84,7 +84,7 @@ class Leaflet {
         $fields['end_date'] = ($this->end_date == null) ? null : $this->end_date;
         $fields['pdf_data'] = ($this->pdf_data == null) ? null : $this->pdf_data;
         $fields['image_urls'] = (empty($this->image_urls)) ? array() : json_encode(array_values($this->image_urls));
-        $fields['store_ids'] = (empty($this->store_ids) || empty(array_values($this->store_ids))) ? array() : json_encode($this->store_ids);
+        $fields['store_ids'] = (empty($this->store_ids) || empty(array_values($this->store_ids))) ? array() : json_encode(array_values($this->store_ids));
         $res = RestLayer::request($method, $endpoint, $fields, array(
             'Authorization' => "Bearer " . self::token()
         ));
