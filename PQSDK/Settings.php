@@ -8,6 +8,10 @@ class Settings {
   public static $host;
   public static $appSecret;
 
+  public function __construct(){
+    $this->setSchema("https");
+  }
+
   public static function setSchema($schema) {
     self::$schema = $schema;
   }
