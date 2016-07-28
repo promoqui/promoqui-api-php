@@ -7,6 +7,7 @@ ini_set('date.timezone', 'UTC');
 class Token {
   public static $access_token = null;
   public static $expiration = null;
+  public static $retailer_id = null;
 
   public static function get() {
     $res = RestLayer::get(
@@ -14,13 +15,14 @@ class Token {
       array(),
       array('Authentication' => "Key " . Settings::$appSecret)
     );
-    
+
     if ($res[0] == 200) {
       $body = json_decode($res[2], true);
       $expiration = date("U", strtotime($body['expired_at']));
 
       self::$access_token = $body['token'];
       self::$expiration = $expiration;
+      self::$retailer_id = $body['retailer_id'];
     }
 
     return self::$access_token;
