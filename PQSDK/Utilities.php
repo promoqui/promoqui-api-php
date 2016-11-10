@@ -233,71 +233,16 @@ class JSON {
 /* @var ISSUU */
 class ISSUU {
     public static function get_leaflet_data($url){
-        $doc = new \DOMDocument();
         $page = Network::GET($url)[2];
-        $doc->loadHTML($page);
-        $xpath = new \DOMXPath($doc);
-        $scripts = $xpath->query("//script");
-        $script = "";
-        foreach ($scripts as $s){
-            if (strpos($s->nodeValue,"window.issuuDataCache") !== false){
-                $script = $s->nodeValue;
-            }
-        }
-        $pages = JSON::decode(preg_split('/\s=\s/',$script)[1]);
-        $chiavi = array();
-        foreach($pages['apiCache'] as $key => $value){
-            $chiavi[] = $key;
-        }
-        preg_match("/\"username\":\"([a-z0-9\.]+)\",\"/",$page, $username);
-        $username = $username[1];
-        $doc_name = end(preg_split('/\//',$url));
-        $chiave1 = "api-node.issuu.com/query|actionissuu.document.get_user_doc|documentusername{$username}|formatjson|name{$doc_name}|verifystate";
-        $chiave2 = "/query|actionissuu.document.get_user_doc|documentusername{$username}|formatjson|name{$doc_name}|verifystate";
-        $id_chiave = 0;
-        for($i=0; $i<sizeof($chiavi); $i++){
-            if($chiavi[$i] == $chiave1 || $chiavi[$i] == $chiave2){
-                $id_chiave = $i;
-            }
-        }
-
-        $leaflet_pages = $pages['apiCache'][$chiavi[$id_chiave]]['document']['pageCount'];
-        $doc_id = $pages['apiCache'][$chiavi[$id_chiave]]['document']['documentId'];
-        $leaflet_name = $pages['apiCache'][$chiavi[$id_chiave]]['document']['title'];
-        $desciption = $pages["apiCache"][$chiavi[$id_chiave]]["document"]["description"];
-        if ($desciption != null){
-            $desciption = preg_split('/-/',$desciption);
-            $start_date = end(preg_split("/\s/",$desciption[0]));
-            preg_match('/([0-9.]{4,10})/',$desciption[1],$end_date);
-            if (sizeof($start_date) == 1){
-                $parts = preg_split(".",$end_date[1]);
-                $start_date = "{$start_date}/{$parts[1]}/".date('Y');
-            }elseif(sizeof($start_date) == 5){
-                $parts = preg_split(".",$end_date[1]);
-                preg_replace(".",$start_date,'/');
-                $start_date+="/{$parts[2]}";
-            }
-            if (sizeof($end_date[1]) == 5){
-                preg_replace(".",$end_date[1],'/');
-                $end_date[1]+='/'.date('Y');
-            }elseif(sizeof($end_date[1]) < 4){
-                preg_replace(".",$end_date[1],'/');
-                $end_date[1]+='/'.date('Y');
-            }
-            $end_date = $end_date[1];
-        }else{
-            $start_date = date('d/m/Y');
-            $end_date = date('d/m/Y');
-        }
-
+        preg_match('/documentId\":\"([0-9a-z\-]+)\"/', $page, $doc_id);
+        preg_match('/title\":\"([a-zA-Z0-9\-\.]+)\"/', $page, $leaflet_name);
+        preg_match('/pageCount\":([0-9]+)/', $page, $leaflet_pages);
         $images = array();
-        $images['name'] = mb_convert_encoding($leaflet_name, "iso-8859-1", 'auto');
-        $images['start_date'] = $start_date;
-        $images['end_date'] = $end_date;
+        $images['name'] = mb_convert_encoding($leaflet_name[1], "iso-8859-1", 'auto');
         $images['url'] = $url;
         $images['image_urls'] = array();
-        for($i=1; $i<=$leaflet_pages; $i++){
-            $image_url = "http://image.issuu.com/{$doc_id}/jpg/page_{$i}.jpg";
+        for($i=1; $i<=$leaflet_pages[1]; $i++){
+            $image_url = "https://image.issuu.com/{$doc_id[1]}/jpg/page_{$i}.jpg";
             $images['image_urls'][] = $image_url;
         }
         return $images;
