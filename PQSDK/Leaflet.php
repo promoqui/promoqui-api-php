@@ -103,9 +103,9 @@ class Leaflet {
                 if ($key != 'retailer' && $key != 'image_urls' && $key != 'pages') {
                     $result->{$key} = $val;
                 }
-            }elseif($key == 'retailer' && property_exists($this, 'retailer_id')){
+            }elseif($key == 'retailer' && property_exists($result, 'retailer_id')){
                 $result['retailer_id'] = $val['id'];
-            } elseif($key == 'pages' && property_exists($this, 'page')) {
+            } elseif($key == 'pages' && property_exists($result, 'page')) {
                 foreach($val as $page){
                     $result['page_ids'][] = $page['id'];
                 }
