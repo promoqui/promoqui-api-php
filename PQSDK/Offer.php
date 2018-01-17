@@ -13,7 +13,7 @@ class Offer {
       }
     }
     if(empty($this->store_ids)){
-      $this->$store_ids = [];
+      $this->store_ids = [];
     }
   }
 

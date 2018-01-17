@@ -30,7 +30,7 @@ class Leaflet {
     }
 
     public function find($url) {
-        $res = RestLayer::get('v1/leaflets', array("url" => $url), array(
+        $res = RestLayer::get('v1/leaflets', array("url" => $url, "retailer_id" => Token::$retailer_id), array(
             'Authorization' => "Bearer " . self::token()
         ));
         if ($res[0] == 200)
@@ -41,6 +41,7 @@ class Leaflet {
             throw new \Exception("Unexpected HTTP status code {$res[0]}, {$res[1]}");
     }
 
+    /*
     public function show() {
         $method = "get";
         $endpoint = "v1/leaflet";
@@ -58,6 +59,7 @@ class Leaflet {
             return self::from_json(json_decode($res[2], true));
         }
     }
+    */
 
     public function save() {
 

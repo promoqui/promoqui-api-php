@@ -5,7 +5,7 @@ namespace PQSDK;
 
 class City
 {
-    public $id, $name, $inhabitants, $latitude, $longitude;
+    public $id, $name, $inhabitants, $latitude, $longitude, $state, $country, $is_country;
 
     public function token() {
         return Token::accessToken();
@@ -19,7 +19,7 @@ class City
         ));
 
         if ($res[0] == 200) {
-            return json_decode($res[2], true)["id"];
+            return $this->from_json($res[2]);
         } else if ($res[0] == 404) {
             return null;
         } else {
@@ -30,10 +30,7 @@ class City
     public function all() {
         $res = RestLayer::get('v1/cities', array(), array( "Authorization" => "Bearer " . self::token()));
         if ($res[0] == 200){
-            $cities = array();
-            foreach ($res[1] as $city) {
-                $cities[] = self::from_json($city);
-            }
+            $cities = self::from_json($res[2]);
             return $cities;
         }else if($res[0] == 404){
             return null;
@@ -51,17 +48,37 @@ class City
                 array("name" => $name),
                 array('Authorization' => "Bearer " . self::token())
             )[2];
-            return json_decode($res, true)['id'];
+            return $this->from_json($res);
         }
     }
 
     private function from_json($json) {
-        $result = new City();
 
-        foreach ($json as $key => $val) {
-            $result->{$key} = $val;
+        $json = json_decode($json);
+
+        $result = null;
+
+        if( (is_array($json) && count($json)==1) ){
+            $result = $this->to_object($json[0]);
+        }else if($json instanceof \stdClass){
+            $result = $this->to_object($json);
+        }
+        else{
+            foreach ($json as $elem){
+                $result [] = $this->to_object($elem);
+            }
         }
 
+        return $result;
+    }
+
+    private function to_object($obj){
+
+        $result = new City();
+
+        foreach ($obj as $key => $val) {
+            $result->{$key} = $val;
+        }
         return $result;
     }
 

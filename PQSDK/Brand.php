@@ -17,9 +17,10 @@ class Brand {
         ));
 
         if($res[0] == 200){
-            return array_map(function($brand){
-                return self::from_json($brand);
-            }, $res[1]);
+
+            $array = self::from_json($res[2]);
+
+            return $array;
         }else if($res[0] == 400){
             return null;
         }else{
@@ -31,7 +32,7 @@ class Brand {
     public function find($name){
         $res = RestLayer::get('v1/brands/search', array("q"=> $name), array('Authorization'=>'Bearer ' . self::token()));
         if ($res[0] == 200){
-            return self::from_json($res[1]);
+            return self::from_json($res[2]);
         }else if($res[0] == 404){
             return null;
         }else{
@@ -41,12 +42,29 @@ class Brand {
 
 
     private function from_json($json) {
-        $result = new Brand();
 
-        foreach ($json as $key => $val) {
-            $result->{$key} = $val;
+        $json = json_decode($json);
+
+        $result = null;
+
+        if(count($json)==1){
+            $result = $this->to_object($json[0]);
+        }else{
+            foreach ($json as $elem){
+                $result [] = $this->to_object($elem);
+            }
         }
 
+        return $result;
+    }
+
+    private function to_object($obj){
+
+        $result = new Brand();
+
+        foreach ($obj as $key => $val) {
+            $result->{$key} = $val;
+        }
         return $result;
     }
 

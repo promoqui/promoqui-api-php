@@ -3,7 +3,7 @@
 namespace PQSDK;
 
 class Store {
-    public $id, $name, $address, $zipcode, $latitude, $longitude, $phone, $city_id, $city, $origin, $opening_hours, $opening_hours_text;
+    public $id, $name, $address, $zipcode, $latitude, $longitude, $phone, $city_id, $city, $origin, $opening_hours, $opening_hours_text, $region, $extra_infos;
 
     public function __construct() {
         $this->opening_hours = array();
@@ -55,10 +55,11 @@ class Store {
         }
     }
 
-    public function find($address, $zipcode) {
+    public function find($address, $zipcode, $retailer = null) {
         $res = RestLayer::get('v1/stores', array(
             'address'=> $address,
             'zipcode'=> $zipcode,
+            'retailer' => $retailer
         ), array(
             'Authorization' => "Bearer " . self::token()
         ));
@@ -78,7 +79,7 @@ class Store {
         ));
 
         if ($res[0] == 200) {
-            self::from_json(json_decode($res[2], true));
+            return self::from_json(json_decode($res[2], true));
         } else if ($res[0] == 404) {
             return null;
         } else {
