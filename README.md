@@ -155,4 +155,31 @@ foreach($offers as $data){
 ```
 With the above code we scroll all offers, asing storeIds to offer and save it.
 
+# Support Libraries
+
+For convenience we have included in the "libraries" folder the PHP library "simplehtmldom" (http://simplehtmldom.sourceforge.net/) for parsing HTML pages.
+
+This is the most common external library for parsing HTML pages. It is written in PHP5 + and allows you to manipulate HTML in a very simple way.
+
+The documentation can be found at this URL: http://simplehtmldom.sourceforge.net/manual.htm
+
+You have to include in your crawler PHP script the follow inclusion code:
+```php
+include_once "libraries/simple_html_dom.php";
+```
+
+Example:
+```php
+// Create DOM from URL or file
+$html = file_get_html('http://www.google.com/');
+
+// Find all images
+foreach($html->find('img') as $element)
+       echo $element->src . '<br>';
+
+// Find all links
+foreach($html->find('a') as $element)
+       echo $element->href . '<br>';
+```
+
 # Have a nice day
